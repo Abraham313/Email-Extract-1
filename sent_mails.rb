@@ -12,8 +12,8 @@ class Email
       file << ["Email, Name"]
 
       @gmail.label("Sent").emails.each do |email|
-        recipients_from_to(email) if email.message.to
-        recipients_from_cc(email) if email.message.cc
+        recipients_from_to(email[:to]) if email.message.to
+        recipients_from_to(email[:cc]) if email.message.cc
       end
 
       file << @array.to_a
@@ -26,13 +26,7 @@ class Email
   private
 
   def recipients_from_to(email)
-    email[:to].each do |mail|
-      @array[mail.mailbox.concat("@").concat(mail.host)] = mail.first
-    end
-  end
-
-  def recipients_from_cc(email)
-    email[:cc].each do |mail|
+    email.each do |mail|
       @array[mail.mailbox.concat("@").concat(mail.host)] = mail.first
     end
   end
