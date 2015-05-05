@@ -1,7 +1,7 @@
 #https://github.com/gmailgem/gmail --gem used
+require 'gmail'
 require 'csv'
 require 'io/console' #for hidden password input
-require 'gmail'
 
 class Email
   def initialize(user_name, password)
@@ -15,8 +15,20 @@ class Email
       push_recipients_to_array(email[:cc]) if email.message.cc
     end
 
+    @array.uniq! {|arr| arr["Email"]}
     add_recipients_to_file
     @gmail.logout
+  end
+
+  def add_recipients_to_file
+    header =  ["Email", "Name"]
+    File.open('email.csv', 'w') do |file|
+      file.puts header.to_csv
+      @array.each do |arr|
+        file.puts header.map {|h| arr[h]}.to_csv
+      end
+      file.close
+    end
   end
 
   private
@@ -24,17 +36,6 @@ class Email
   def push_recipients_to_array(email)
     email.each do |mail|
       @array << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
-    end
-  end
-
-  def add_recipients_to_file
-    header =  ["Email", "Name"]
-    File.open('email.csv', 'w') do |file|
-      file.puts header.to_csv
-      @array.uniq.each do |arr|
-        file.puts header.map {|h| arr[h]}.to_csv
-      end
-      file.close
     end
   end
 
