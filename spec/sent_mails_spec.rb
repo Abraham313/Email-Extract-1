@@ -1,21 +1,22 @@
-require_relative '../sent_mails'
+require "spec_helper"
+require_relative '../lib/sent_mails'
+
 RSpec.describe Email do
 
   before(:each) do
     @gmail = Gmail.connect("amoludage7@gmail.com", "9860666535143")
   end
 
-  it 'has logged in' do
+  it 'user has logged in if valid data' do
     expect(@gmail.logged_in?).to eq true
   end
 
-  it 'response for invalid data' do
-    gmail = Gmail.connect("amol@nd.cl", "djdweiuuo")
-    expect(gmail.logged_in?).to eq false
+  it 'login failed if invalid data' do
+    expect { Email.new("amoludage7@gmail.com", "986066535143") }.to raise_error(Gmail::Client::AuthorizationError)
   end
 
-  it '#get_recipients' do
-    @email = Email.new("amoludage7@gmail.com", "9860666535143")
-    expect(@email.get_recipients.name).to eq "OK"
+  it 'error response message' do
+    expect { Email.new("amoludi@jms.com", "kdld") }.to raise_error(/Couldn't login to given Gmail account/)
   end
+
 end
