@@ -1,0 +1,6 @@
+machine:
+  timezone:
+    Asia/Kolkata
+  ruby:
+    version:
+      2.2.0p0
