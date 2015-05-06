@@ -5,8 +5,8 @@ require 'io/console' #for hidden password input
 
 class Email
   def initialize(user_name, password)
-    @gmail = Gmail.connect(user_name, password)
-    @array = []
+    @gmail = Gmail.new!(user_name, password)
+    @recipients = []
   end
 
   def get_recipients
@@ -15,8 +15,10 @@ class Email
       push_recipients_to_array(email[:cc]) if email.message.cc
     end
 
-    @array.uniq! {|arr| arr["Email"]}
-    add_recipients_to_file
+    unless @recipients.empty?
+      @recipients.uniq! {|arr| arr["Email"]}
+      add_recipients_to_file
+    end
     @gmail.logout
   end
 
@@ -24,7 +26,7 @@ class Email
 
   def push_recipients_to_array(email)
     email.each do |mail|
-      @array << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
+      @recipients << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
     end
   end
 
@@ -32,7 +34,7 @@ class Email
     header =  ["Email", "Name"]
     File.open('email.csv', 'w') do |file|
       file.puts header.to_csv
-      @array.each do |arr|
+      @recipients.each do |arr|
         file.puts header.map {|h| arr[h]}.to_csv
       end
       file.close
@@ -45,5 +47,9 @@ user_name = gets.chomp
 puts "Enter password:"
 password = STDIN.noecho(&:gets).chomp
 
-@email = Email.new(user_name, password)
-@email.get_recipients
+begin
+  email = Email.new(user_name, password)
+  email.get_recipients
+rescue Gmail::Client::AuthorizationError => e
+  puts e.message
+end
