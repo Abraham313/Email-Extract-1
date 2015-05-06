@@ -20,6 +20,14 @@ class Email
     @gmail.logout
   end
 
+  private
+
+  def push_recipients_to_array(email)
+    email.each do |mail|
+      @array << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
+    end
+  end
+
   def add_recipients_to_file
     header =  ["Email", "Name"]
     File.open('email.csv', 'w') do |file|
@@ -30,16 +38,8 @@ class Email
       file.close
     end
   end
-
-  private
-
-  def push_recipients_to_array(email)
-    email.each do |mail|
-      @array << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
-    end
-  end
-
 end
+
 puts "Enter user name:"
 user_name = gets.chomp
 puts "Enter password:"
