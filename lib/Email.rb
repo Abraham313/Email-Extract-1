@@ -35,13 +35,23 @@ class Email
   end
 
   def add_recipients_to_file
-    header =  ["Email", "Name"]
-    File.open('email.csv', 'w') do |file|
-      file.puts header.to_csv
+    headers = ['Email', 'Name']
+    CSV.open('email.csv', 'wb', {write_headers: true ,headers: headers}) do |csv|
       @recipients.each do |arr|
-        file.puts header.map {|h| arr[h]}.to_csv
+        csv << arr.values_at(*headers)
       end
-      file.close
     end
   end
+end
+
+puts "Enter user name:"
+user_name = gets.chomp
+puts "Enter password:"
+password = STDIN.noecho(&:gets).chomp
+
+begin
+  email = Email.new(user_name, password)
+  email.get_recipients
+rescue Gmail::Client::AuthorizationError => e
+  puts e.message
 end
