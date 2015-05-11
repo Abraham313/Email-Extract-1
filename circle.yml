@@ -3,6 +3,6 @@ machine:
     Asia/Kolkata
   ruby:
     version:
-      2.2.0p0
+      2.2.0
 general:
   build_dir: spec
