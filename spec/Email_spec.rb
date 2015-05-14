@@ -2,8 +2,9 @@ require "spec_helper"
 require_relative '../lib/Email'
 
 RSpec.describe Email do
+
   before(:each) do
-    @email = Email.new("amolishere7", "amol@12345")
+    @email = Email.new('amolishere7', 'amol@12345')
   end
 
   it "properly logs in to valid Gmail account" do

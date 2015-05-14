@@ -1,4 +1,5 @@
 require_relative "./Email"
+require 'io/console' #for hidden password input
 
 class Sent_mail
 end

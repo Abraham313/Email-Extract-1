@@ -1,7 +1,6 @@
 #https://github.com/gmailgem/gmail --gem used
 require 'gmail'
 require 'csv'
-require 'io/console' #for hidden password input
 
 class Email
   def initialize(user_name, password)
@@ -14,7 +13,7 @@ class Email
       push_recipients_to_array(email[:to]) if email.message.to
       push_recipients_to_array(email[:cc]) if email.message.cc
     end
-    
+
     check_recipients_present
     @gmail.logout
   end
