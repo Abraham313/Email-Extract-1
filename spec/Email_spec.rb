@@ -3,7 +3,7 @@ require_relative '../lib/Email'
 
 RSpec.describe Email do
   before(:each) do
-    @email = Email.new("amoludage7", "9860666535143")
+    @email = Email.new("amolishere7", "amol@12345")
   end
 
   it "properly logs in to valid Gmail account" do
@@ -31,6 +31,6 @@ RSpec.describe Email do
 
   it "should open file and write into the file after #get_recipients called" do
     @email.get_recipients
-    allow(File).to receive(:open).with('eail.csv', 'wb')
+    allow(File).to receive(:open).with('email.csv', 'wb')
   end
 end

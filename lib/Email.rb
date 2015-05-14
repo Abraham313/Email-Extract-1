@@ -15,7 +15,6 @@ class Email
       push_recipients_to_array(email[:cc]) if email.message.cc
     end
 
-    check_recipients_present
     @gmail.logout
   end
 
@@ -25,6 +24,7 @@ class Email
     email.each do |mail|
       @recipients << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
     end
+    check_recipients_present
   end
 
   def check_recipients_present
@@ -42,16 +42,4 @@ class Email
       end
     end
   end
-end
-
-puts "Enter user name:"
-user_name = gets.chomp
-puts "Enter password:"
-password = STDIN.noecho(&:gets).chomp
-
-begin
-  email = Email.new(user_name, password)
-  email.get_recipients
-rescue Gmail::Client::AuthorizationError => e
-  puts e.message
 end
