@@ -14,7 +14,8 @@ class Email
       push_recipients_to_array(email[:to]) if email.message.to
       push_recipients_to_array(email[:cc]) if email.message.cc
     end
-
+    
+    check_recipients_present
     @gmail.logout
   end
 
@@ -24,7 +25,6 @@ class Email
     email.each do |mail|
       @recipients << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
     end
-    check_recipients_present
   end
 
   def check_recipients_present
