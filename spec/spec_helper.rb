@@ -1,3 +1,7 @@
+gem 'rspec'
+gem 'simplecov', require: false
+gem 'codeclimate-test-reporter', require: nil
+
 require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 

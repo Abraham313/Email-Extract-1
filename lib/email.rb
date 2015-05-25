@@ -1,4 +1,7 @@
 #https://github.com/gmailgem/gmail --gem used
+gem 'gmail'
+gem 'progressbar'
+
 require 'gmail'
 require 'progressbar'
 require 'csv'
