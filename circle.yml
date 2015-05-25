@@ -4,5 +4,3 @@ machine:
   ruby:
     version:
       2.2.0
-general:
-  build_dir: spec
