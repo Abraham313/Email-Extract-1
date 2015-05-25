@@ -1,18 +1,17 @@
 #take inputs from user
 
 require_relative './email'
+require 'highline/import'
 
-puts "Enter user name:"
-user_name = gets.chomp
-puts "Enter password:"
-system 'stty -echo'
-password = gets.chomp
-system 'stty echo'
+user_name = ask("Enter your username:") { |input| input.echo = true }
+password = ask("Enter your password:") { |input| input.echo = "*" }
 
 begin
   email = Email.new(user_name, password)
   email.get_recipients
 rescue Gmail::Client::AuthorizationError => e
+  puts e.message
+rescue Gmail::Client::ConnectionError => e
   puts e.message
 end
 
