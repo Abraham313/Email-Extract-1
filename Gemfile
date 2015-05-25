@@ -7,4 +7,3 @@ gem 'rspec'
 gem 'simplecov', require: false
 gem 'codeclimate-test-reporter', require: nil
 gem 'byebug'
-gem 'progressbar'
