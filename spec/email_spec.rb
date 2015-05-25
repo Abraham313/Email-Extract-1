@@ -7,7 +7,7 @@ RSpec.describe Email do
 
     #mock gmails connect! method
     allow(Gmail).to receive(:connect!).and_return(gmail = double('Gmail'))
-    @email = Email.new('amolishere7', 'amol@12345')
+    @email = Email.new('amolishere77', 'uamol@12345')
     allow(gmail).to receive(:label).with('Sent').and_return(sent_mails = double('Gmail::Mailbox'))
 
     #sent mails have two emails with to and cc(i.e first_email & second_email)
@@ -24,8 +24,8 @@ RSpec.describe Email do
     #first sent mail recipients data
     first_email_to_data = double(Net::IMAP::Address)
     first_email_cc_data = double(Net::IMAP::Address)
-    allow(first_email).to receive(:[]).with(:to).and_return([first_email_to_data])
-    allow(first_email).to receive(:[]).with(:cc).and_return([first_email_cc_data])
+    allow(first_email).to receive(:to).and_return([first_email_to_data])
+    allow(first_email).to receive(:cc).and_return([first_email_cc_data])
     allow(first_email_to_data).to receive(:mailbox).and_return(first_email_to_data_mailbox = 'amolishere7')
     allow(first_email_to_data).to receive(:host).and_return(first_email_to_data_host = 'gmail.com')
     allow(first_email_to_data).to receive(:first).and_return(first_email_to_data_name = 'Amol Udage')
@@ -36,8 +36,8 @@ RSpec.describe Email do
     #second sent mail recipients data
     second_email_to_data = double(Net::IMAP::Address)
     second_email_cc_data = double(Net::IMAP::Address)
-    allow(second_email).to receive(:[]).with(:to).and_return([second_email_to_data])
-    allow(second_email).to receive(:[]).with(:cc).and_return([second_email_cc_data])
+    allow(second_email).to receive(:to).and_return([second_email_to_data])
+    allow(second_email).to receive(:cc).and_return([second_email_cc_data])
     allow(second_email_to_data).to receive(:mailbox).and_return(second_email_to_data_mailbox = 'viky56')
     allow(second_email_cc_data).to receive(:mailbox).and_return(second_email_cc_data_mailbox = 'vijay14')
     allow(second_email_to_data).to receive(:host).and_return(second_email_to_data_host = 'gmail.com')
