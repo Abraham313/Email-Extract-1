@@ -1,5 +1,6 @@
 #https://github.com/gmailgem/gmail --gem used
 require 'gmail'
+require 'progressbar'
 require 'csv'
 
 class Email
@@ -10,8 +11,8 @@ class Email
 
   def get_recipients
     @gmail.label("Sent").emails.each do |email|
-      push_recipients_to_array(email[:to]) if email.message.to
-      push_recipients_to_array(email[:cc]) if email.message.cc
+      push_recipients_to_array(email.to) if email.message.to
+      push_recipients_to_array(email.cc) if email.message.cc
     end
 
     check_recipients_present
@@ -21,8 +22,10 @@ class Email
   private
 
   def push_recipients_to_array(email)
+    pbar = ProgressBar.new('writting', 100)
     email.each do |mail|
       @recipients << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
+      pbar.finish
     end
   end
 
