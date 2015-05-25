@@ -1,7 +1,7 @@
 require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 require 'simplecov'
 
-CodeClimate::TestReporter.start
 SimpleCov.start do
  add_filter "lib/*.rb"
 end

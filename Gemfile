@@ -5,6 +5,6 @@ gem 'gmail'
 
 gem 'rspec'
 gem 'simplecov', require: false
-gem 'codeclimate-test-reporter', require: nil
+gem 'codeclimate-test-reporter'
 gem 'byebug'
 gem 'progressbar'
