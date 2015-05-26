@@ -3,7 +3,13 @@ source 'https://rubygems.org'
 
 gem 'gmail'
 
-gem 'rspec'
-gem 'simplecov', require: false
-gem 'codeclimate-test-reporter', require: nil
-gem 'byebug'
+group :development, :test do
+  gem 'rspec'
+  gem 'byebug'
+end
+
+group :test do
+  gem 'simplecov', require: false
+  gem 'codeclimate-test-reporter', require: nil
+end
+

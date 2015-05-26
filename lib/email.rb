@@ -1,6 +1,5 @@
 #https://github.com/gmailgem/gmail --gem used
 require 'gmail'
-require 'progressbar'
 require 'csv'
 
 class Email
@@ -22,10 +21,8 @@ class Email
   private
 
   def push_recipients_to_array(email)
-    pbar = ProgressBar.new('writting', 100)
     email.each do |mail|
       @recipients << { "Email" =>  mail.mailbox.concat("@").concat(mail.host), "Name" => mail.first }
-      pbar.finish
     end
   end
 
