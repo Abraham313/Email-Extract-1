@@ -5,11 +5,13 @@ require 'byebug'
 
 class Email
   def initialize(user_name, password)
+    trap("INT") { puts "Exiting without login"; exit }
     @gmail = Gmail.connect!(user_name, password)
-    @recipients = CSV.read('recipients.csv').to_h
+    @recipients = Hash.new
   end
 
   def get_recipients
+    @recipients = CSV.read('recipients.csv').to_h
     previous_email = nil
 
     trap("INT") do
@@ -18,11 +20,7 @@ class Email
       exit
     end
 
-    begin
-      date = Marshal.load(File.read('interrupt.txt'))
-    rescue ArgumentError
-      p 'Initial fetching...'
-    end
+    date = get_last_updated_date
 
     @gmail.label("Sent").emails_in_batches(after: date) do |email|
       previous_email = email
@@ -35,6 +33,15 @@ class Email
   end
 
   private
+
+  def get_last_updated_date
+    begin
+      date = Marshal.load(File.read('interrupt.txt'))
+    rescue ArgumentError
+      puts 'Initial fetching...'
+      nil
+    end
+  end
 
   def push_recipients_to_array(email)
     email.each do |mail|
