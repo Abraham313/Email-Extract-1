@@ -13,7 +13,7 @@ RSpec.describe Email do
     #sent mails have two emails with to and cc(i.e first_email & second_email)
     first_email = double(Gmail::Message)
     second_email = double(Gmail::Message)
-    allow(sent_mails).to receive(:emails).and_return([first_email, second_email])
+    allow(sent_mails).to receive(:emails_in_batches).and_return([first_email, second_email])
     allow(first_email).to receive(:message).and_return(message1 = double(Mail::Message))
     allow(message1).to receive(:to).and_return(to_message1 = double(Mail::AddressContainer))
     allow(message1).to receive(:cc).and_return(cc_message1 = double(Mail::AddressContainer))
@@ -60,14 +60,12 @@ RSpec.describe Email do
     @email.get_recipients
     recipients = @email.instance_variable_get('@recipients')
     expect(recipients).not_to be_empty
-    expect(recipients.first['Email']).not_to be_empty
   end
 
   it "check uniqueness of recipients" do
     @email.get_recipients
     recipients = @email.instance_variable_get('@recipients')
     file = CSV.open('recipients.csv', 'r')
-    expect(recipients.uniq { |arr| arr['Email'] }.length).to eq recipients.length
     expect(recipients.length).to eq file.count - 1
   end
 
