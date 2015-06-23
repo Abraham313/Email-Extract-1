@@ -1,11 +1,9 @@
 #https://github.com/gmailgem/gmail --gem used
 require 'gmail'
 require 'csv'
-require 'byebug'
 
 class Email
   def initialize(user_name, password)
-    trap("INT") { puts "Exiting without login"; exit }
     @gmail = Gmail.connect!(user_name, password)
     @recipients = Hash.new
   end
@@ -24,8 +22,8 @@ class Email
 
     @gmail.label("Sent").emails_in_batches(after: date) do |email|
       previous_email = email
-      push_recipients_to_array(email.to) if email.message.to
-      push_recipients_to_array(email.cc) if email.message.cc
+      push_recipients_to_hash(email.to) if email.message.to
+      push_recipients_to_hash(email.cc) if email.message.cc
     end
 
     add_recipients_to_file if @recipients
@@ -38,12 +36,13 @@ class Email
     begin
       date = Marshal.load(File.read('interrupt.txt'))
     rescue ArgumentError
+      puts 'Connecting...'; sleep 1.5
       puts 'Initial fetching...'
       nil
     end
   end
 
-  def push_recipients_to_array(email)
+  def push_recipients_to_hash(email)
     email.each do |mail|
       @recipients[mail.mailbox.concat('@').concat(mail.host)] =  mail.first
       puts 'writting...'
