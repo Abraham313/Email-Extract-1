@@ -13,6 +13,7 @@ GEM
       mail (>= 2.2.1)
     gmail_xoauth (0.4.1)
       oauth (>= 0.3.6)
+    highline (1.7.2)
     json (1.8.2)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
@@ -44,5 +45,6 @@ DEPENDENCIES
   byebug
   codeclimate-test-reporter
   gmail
+  highline
   rspec
   simplecov
